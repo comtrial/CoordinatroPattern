@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class FirstTabCoordinator: Coordinator {
     //TODO: checkout why rootVC is UINavigationContorller not VC or TabVC in TabCoordinator
@@ -19,6 +20,7 @@ class FirstTabCoordinator: Coordinator {
     }()
 
     func start() {
+//        rootViewController = UIHostingController(rootView: FirstDetailView())
         rootViewController.setViewControllers([firstViewController], animated: true)
     }
 }

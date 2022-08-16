@@ -21,7 +21,7 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        
+        // MARK: FirstTab set
         let firstCoordinator = FirstTabCoordinator()
         firstCoordinator.start()
         
@@ -29,7 +29,15 @@ class MainCoordinator: Coordinator {
         let firstViewContoroller = firstCoordinator.rootViewController
         setup(vc: firstViewContoroller, title: "First Tab", imageName: "paperplane", selectedImageName: "paperplane.fill")
         
-        self.rootViewController.viewControllers = [firstViewContoroller]
+        // MARK: SecondTab set
+        let secondCoordinator = SecondTabCoodinator()
+        secondCoordinator.start()
+        
+        self.childCoordinators.append(secondCoordinator)
+        let secondViewController = secondCoordinator.rootViewController
+        setup(vc: secondViewController, title: "Second Tab", imageName: "bell", selectedImageName: "bell.fill")
+        
+        self.rootViewController.viewControllers = [firstViewContoroller, secondViewController]
     }
     
     func setup(vc: UIViewController, title: String, imageName: String, selectedImageName: String) {
