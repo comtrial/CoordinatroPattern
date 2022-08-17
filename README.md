@@ -12,17 +12,18 @@ Coodinator pattern 을 통해 기본이 되는 로그인 유무에 따른 어플
 
 ### What I Learn
 ---
+* UserDefault 를 활용한 사용자 환경 저장 구현
 * Coodinator pattern 을 통한 TabBar 환경의 Use Flow 구현
 * UIKit 와 SwiftUI 통합 환경 구현 방법
-* Combine 을 통한 Data Flow 구현
+* Combine 을 통한 Data Communication 구현
 * MVVM 패턴 적용
 
 
 ### What I Build
 ---
-1. 로그인 Data 의 screen 간 전달
+1. Onboarding Page (앱 소개)
 
-2. 로그인을 통해 받아온 Token 을 Device 내에 저장
+2. 로그인 Data 의 screen 간 전달
 
 3. TabBar 환경의 Application Flow 구현
 
