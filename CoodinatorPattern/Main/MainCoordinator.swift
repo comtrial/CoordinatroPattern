@@ -17,7 +17,6 @@ class MainCoordinator: Coordinator {
     
     init() {
         self.rootViewController = UITabBarController()
-//        rootViewController.tabBar.backgroundColor = .lightGray
     }
     
     func start() {
@@ -40,6 +39,7 @@ class MainCoordinator: Coordinator {
         self.rootViewController.viewControllers = [firstViewContoroller, secondViewController]
     }
     
+    //MARK: for TabBar Item Setting
     func setup(vc: UIViewController, title: String, imageName: String, selectedImageName: String) {
         let defaultImage = UIImage(systemName: imageName)
         let selectedImage = UIImage(systemName: selectedImageName)

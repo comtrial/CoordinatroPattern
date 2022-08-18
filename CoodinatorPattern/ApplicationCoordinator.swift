@@ -7,6 +7,8 @@
 
 import SwiftUI
 import UIKit
+import Combine
+
 
 // MARK: ScenDelegate 에서 Coordinator 의 기능 분리
 class ApplicationCoordinator: Coordinator{
@@ -14,20 +16,49 @@ class ApplicationCoordinator: Coordinator{
     
     var childCoordinators = [Coordinator]()
     
+    let hasSeenOnboarding = CurrentValueSubject<Bool,Never>(false)
+    var subscription = Set<AnyCancellable>()
+    
     init(window: UIWindow) {
         self.window = window
     }
-    
+
     func start() {
-        //MARK: window 의 rootVC 를 onboardingCoordinator 를 통해 onboardingContenView 등록
-//        let onboardingCoordinator = OnboardingCoordinator()
-//        onboardingCoordinator.start()
-//
-//        window.rootViewController = onboardingCoordinator.rootViewController
+        //MARK: UserDefault set & Combine set
+        setupOnboardingValue()
+        //MARK: window 의 rootVC 를 Coordinator 를 통해 View 등록
+        hasSeenOnboarding
+            .sink {  [weak self] hasSeen in
+                if hasSeen {
+                    let mainCoordinator = MainCoordinator()
+                    mainCoordinator.start()
+                    self?.childCoordinators = [mainCoordinator]
+                    self?.window.rootViewController = mainCoordinator.rootViewController
+
+                } else if let hasSeenOnboarding = self?.hasSeenOnboarding {
+                    let onboardingCoordinator = OnboardingCoordinator(hasSeenOnboarding: hasSeenOnboarding)
+                    onboardingCoordinator.start()
+                    self?.childCoordinators = [onboardingCoordinator]
+                    self?.window.rootViewController = onboardingCoordinator.rootViewController
+                }
+            }
+            .store(in: &subscription)
+    }
+    
+    
+    func setupOnboardingValue() {
         
-        let mainCoordinator = MainCoordinator()
-        mainCoordinator.start()
-        self.childCoordinators = [mainCoordinator]
-        window.rootViewController = mainCoordinator.rootViewController
+        let key = "hasSeenOnboarding"
+        let value = UserDefaults.standard.bool(forKey: key) // Default of false
+        hasSeenOnboarding.send(value)
+        
+        hasSeenOnboarding
+            .sink { (value) in
+                //MARK: UserDefault 등록
+                UserDefaults.standard.setValue(value, forKey: key)
+            }
+            .store(in: &subscription)
+
+        
     }
 }

@@ -8,13 +8,25 @@
 import Foundation
 import UIKit
 import SwiftUI
+import Combine
+
 
 class OnboardingCoordinator: Coordinator {
     var rootViewController = UIViewController()
     
+    var hasSeenOnboarding: CurrentValueSubject<Bool,Never>
+    
+    init(hasSeenOnboarding: CurrentValueSubject<Bool,Never>) {
+        self.hasSeenOnboarding = hasSeenOnboarding
+    }
+    
+    
     func start() {
-        let view = OnboardingView {
-        
+        print("hi")
+        //MARK: set hasSeenOnboarding UserDefault true using combine
+        let view = OnboardingView { [weak self] in
+            self?.hasSeenOnboarding.send(true)
+            print("aa")
         }
         //MARK: SwiftUI ContentView 를 UIKit 의 ViewController 에 등록해주는 방법
         rootViewController = UIHostingController(rootView: view)
