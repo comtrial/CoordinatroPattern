@@ -1,4 +1,4 @@
-# CoordinatroPattern
+# CoordinatorPattern
 
 ### Overview
 
